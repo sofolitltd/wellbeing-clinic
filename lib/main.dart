@@ -1,9 +1,7 @@
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellbeingclinic/test/screens/multi_result_page.dart';
@@ -25,9 +23,9 @@ import 'test/screens/tests.dart';
 //
 // firebase deploy --only hosting:wellbeingclinic
 Future<void> main() async {
-  if (kIsWeb) {
-    usePathUrlStrategy();
-  }
+  // if (kIsWeb) {
+  //   usePathUrlStrategy();
+  // }
 
   //
   WidgetsFlutterBinding.ensureInitialized();
