@@ -143,51 +143,56 @@ class _CBTPageState extends State<CBTPage> {
               )
             : null,
       ),
-      body: Column(
-        children: [
-          // Progress Dots Indicator below AppBar
-          if (_currentPageIndex > 0 &&
-              _currentPageIndex <= _cbtPromptsBn.length)
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(_cbtPromptsBn.length, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: _currentPageIndex == index + 1 ? 12 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _currentPageIndex == index + 1
-                          ? Colors.lightBlue.shade700
-                          : Colors.lightBlue.shade200,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  );
-                }),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            children: [
+              // Progress Dots Indicator below AppBar
+              if (_currentPageIndex > 0 &&
+                  _currentPageIndex <= _cbtPromptsBn.length)
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(_cbtPromptsBn.length, (index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: _currentPageIndex == index + 1 ? 12 : 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _currentPageIndex == index + 1
+                              ? Colors.lightBlue.shade700
+                              : Colors.lightBlue.shade200,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _cbtPromptsBn.length + 2,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return _buildIntroPage();
+                    } else if (index <= _cbtPromptsBn.length) {
+                      final promptIndex = index - 1;
+                      return _buildPromptPage(promptIndex);
+                    } else {
+                      return _buildSummaryPage();
+                    }
+                  },
+                ),
               ),
-            ),
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _cbtPromptsBn.length + 2,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return _buildIntroPage();
-                } else if (index <= _cbtPromptsBn.length) {
-                  final promptIndex = index - 1;
-                  return _buildPromptPage(promptIndex);
-                } else {
-                  return _buildSummaryPage();
-                }
-              },
-            ),
+              // Navigation Buttons at the bottom
+              _buildNavigationButtons(),
+            ],
           ),
-          // Navigation Buttons at the bottom
-          _buildNavigationButtons(),
-        ],
+        ),
       ),
     );
   }
@@ -332,7 +337,7 @@ class _CBTPageState extends State<CBTPage> {
               border: Border.all(color: Colors.green.shade100),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Original Negative Thought
                 Text(

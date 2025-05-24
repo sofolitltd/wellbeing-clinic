@@ -173,54 +173,59 @@ class _PMRPageState extends State<PMRPage> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // --- Progress Indicator ---
-          if (_currentStepIndex > -1 &&
-              _currentStepIndex < _pmrStepsDetails.length)
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(_pmrStepsDetails.length, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: _currentStepIndex == index ? 12 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _currentStepIndex == index
-                          ? Colors.lightGreen.shade700
-                          : Colors.lightGreen
-                              .shade200, // PMR specific progress color
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  );
-                }),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // --- Progress Indicator ---
+              if (_currentStepIndex > -1 &&
+                  _currentStepIndex < _pmrStepsDetails.length)
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(_pmrStepsDetails.length, (index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: _currentStepIndex == index ? 12 : 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _currentStepIndex == index
+                              ? Colors.lightGreen.shade700
+                              : Colors.lightGreen
+                                  .shade200, // PMR specific progress color
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              // --- Main Content Area ---
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: _currentStepIndex == -1 // Intro/Ready State
+                      ? _buildIntroAndDisclaimer()
+                      : _currentStepIndex ==
+                              _pmrStepsDetails.length // Completed State
+                          ? _buildCompletionState()
+                          : _buildActiveExerciseStep(), // Active Step State
+                ),
               ),
-            ),
-          // --- Main Content Area ---
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: _currentStepIndex == -1 // Intro/Ready State
-                  ? _buildIntroAndDisclaimer()
-                  : _currentStepIndex ==
-                          _pmrStepsDetails.length // Completed State
-                      ? _buildCompletionState()
-                      : _buildActiveExerciseStep(), // Active Step State
-            ),
+              // --- Action Buttons ---
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: _buildActionButton(),
+                ),
+              ),
+            ],
           ),
-          // --- Action Buttons ---
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: _buildActionButton(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

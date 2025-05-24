@@ -147,52 +147,58 @@ class _GroundingPageState extends State<GroundingPage> {
         elevation: 4, // Consistent shadow for depth
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // --- Progress Indicator (Consistent with CBT Page) ---
-          if (_currentStepIndex > -1 &&
-              _currentStepIndex < _groundingStepsDetails.length)
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(_groundingStepsDetails.length, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: _currentStepIndex == index ? 12 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: _currentStepIndex == index
-                          ? Colors.lightBlue.shade700
-                          : Colors.lightBlue.shade200,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  );
-                }),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // --- Progress Indicator (Consistent with CBT Page) ---
+              if (_currentStepIndex > -1 &&
+                  _currentStepIndex < _groundingStepsDetails.length)
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:
+                        List.generate(_groundingStepsDetails.length, (index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: _currentStepIndex == index ? 12 : 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: _currentStepIndex == index
+                              ? Colors.lightBlue.shade700
+                              : Colors.lightBlue.shade200,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              // --- Main Content Area (No Card) ---
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0), // Consistent padding
+                  child: _currentStepIndex == -1 // Intro/Ready State
+                      ? _buildIntroAndDisclaimer()
+                      : _currentStepIndex == 5 // Completed State
+                          ? _buildCompletionState()
+                          : _buildActiveExerciseStep(), // Active Step State
+                ),
               ),
-            ),
-          // --- Main Content Area (No Card) ---
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(25.0), // Consistent padding
-              child: _currentStepIndex == -1 // Intro/Ready State
-                  ? _buildIntroAndDisclaimer()
-                  : _currentStepIndex == 5 // Completed State
-                      ? _buildCompletionState()
-                      : _buildActiveExerciseStep(), // Active Step State
-            ),
+              // --- Action Buttons (Consistent with CBT Page) ---
+              Padding(
+                padding: const EdgeInsets.all(25.0), // Consistent padding
+                child: SizedBox(
+                  width: double.infinity, // Full width button
+                  child: _buildActionButton(),
+                ),
+              ),
+            ],
           ),
-          // --- Action Buttons (Consistent with CBT Page) ---
-          Padding(
-            padding: const EdgeInsets.all(25.0), // Consistent padding
-            child: SizedBox(
-              width: double.infinity, // Full width button
-              child: _buildActionButton(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

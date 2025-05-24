@@ -463,29 +463,34 @@ class _MindfulnessPageState extends State<MindfulnessPage> {
         elevation: 4, // Consistent shadow for depth
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // --- Main Content Area (No Card) ---
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(25.0), // Consistent padding
-              child: _currentPhase == MindfulnessPhase.introduction
-                  ? _buildIntroAndDisclaimer() // Initial state with disclaimer and duration selector
-                  : _currentPhase == MindfulnessPhase.endingReflection
-                      ? _buildCompletionState() // Session completed state
-                      : _buildActiveSessionState(), // Active guided session state
-            ),
+      body: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // --- Main Content Area (No Card) ---
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(25.0), // Consistent padding
+                  child: _currentPhase == MindfulnessPhase.introduction
+                      ? _buildIntroAndDisclaimer() // Initial state with disclaimer and duration selector
+                      : _currentPhase == MindfulnessPhase.endingReflection
+                          ? _buildCompletionState() // Session completed state
+                          : _buildActiveSessionState(), // Active guided session state
+                ),
+              ),
+              // --- Action Buttons (Below the main content) ---
+              Padding(
+                padding: const EdgeInsets.all(25.0), // Consistent padding
+                child: SizedBox(
+                  width: double.infinity, // Full width button
+                  child: _buildActionButton(),
+                ),
+              ),
+            ],
           ),
-          // --- Action Buttons (Below the main content) ---
-          Padding(
-            padding: const EdgeInsets.all(25.0), // Consistent padding
-            child: SizedBox(
-              width: double.infinity, // Full width button
-              child: _buildActionButton(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

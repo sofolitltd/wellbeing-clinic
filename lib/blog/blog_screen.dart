@@ -10,7 +10,7 @@ class BlogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    setTabTitle('Blog', context);
+    setTabTitle('Blog - Wellbeing Clinic', context);
 
     return Scaffold(
       // floatingActionButton:
@@ -28,7 +28,9 @@ class BlogScreen extends StatelessWidget {
       //             child: const Icon(Icons.add),
       //           ),
       appBar: AppBar(
-        title: Text('Blog'),
+        title: Text('Blog',
+            style: TextStyle(
+                color: Colors.indigo.shade700, fontWeight: FontWeight.bold)),
       ),
       body: Center(
         child: Container(

@@ -1,10 +1,10 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../utils/set_tab_title.dart';
 
 enum Mood {
   veryHappy('😄', Colors.green, 5),
@@ -36,72 +36,67 @@ class MoodTrackScreen extends StatefulWidget {
 }
 
 class _MoodTrackScreenState extends State<MoodTrackScreen> {
-  Future<void> _signOut() async {
-    try {
-      await auth.signOut();
-    } catch (_) {}
-  }
-
   @override
   Widget build(BuildContext context) {
+    setTabTitle('Mood - Wellbeing Clinic', context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mood Tracker'),
+        title: Text('Mood Tracker',
+            style: TextStyle(
+                color: Colors.indigo.shade700, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () async {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user == null) return;
+          // IconButton(
+          //     onPressed: () async {
+          //       final user = FirebaseAuth.instance.currentUser;
+          //       if (user == null) return;
+          //
+          //       final userId = user.uid;
+          //       final moodsRef = FirebaseFirestore.instance
+          //           .collection('users')
+          //           .doc(userId)
+          //           .collection('moods');
+          //
+          //       final now = DateTime.now();
+          //       final random = Random();
+          //
+          //       for (int i = 0; i < 10; i++) {
+          //         final randomDay =
+          //             DateTime(now.year, now.month, 1 + random.nextInt(28));
+          //         final moodScore = 1 + random.nextInt(5);
+          //
+          //         final mood = Mood.values[random.nextInt(Mood.values.length)];
+          //         final emoji = mood.emoji;
+          //
+          //         MoodEntry moodEntry = MoodEntry(
+          //           id: DateTime.now().millisecondsSinceEpoch.toString(),
+          //           date: Timestamp.fromDate(randomDay).toDate(),
+          //           mood: mood.name,
+          //           emoji: emoji,
+          //           score: moodScore,
+          //           notes: 'notes',
+          //           activities: [],
+          //           people: [],
+          //           places: [],
+          //         );
+          //         await moodsRef.add(moodEntry.toFirestore());
+          //       }
+          //
+          //       debugPrint("✅ Demo mood data added.");
+          //     },
+          //     icon: Icon(Icons.upcoming)),
 
-                final userId = user.uid;
-                final moodsRef = FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(userId)
-                    .collection('moods');
-
-                final now = DateTime.now();
-                final random = Random();
-
-                for (int i = 0; i < 10; i++) {
-                  final randomDay =
-                      DateTime(now.year, now.month, 1 + random.nextInt(28));
-                  final moodScore = 1 + random.nextInt(5);
-
-                  final mood = Mood.values[random.nextInt(Mood.values.length)];
-                  final emoji = mood.emoji;
-
-                  MoodEntry moodEntry = MoodEntry(
-                    id: DateTime.now().millisecondsSinceEpoch.toString(),
-                    date: Timestamp.fromDate(randomDay).toDate(),
-                    mood: mood.name,
-                    emoji: emoji,
-                    score: moodScore,
-                    notes: 'notes',
-                    activities: [],
-                    people: [],
-                    places: [],
-                  );
-                  await moodsRef.add(moodEntry.toFirestore());
-                }
-
-                debugPrint("✅ Demo mood data added.");
-              },
-              icon: Icon(Icons.upcoming)),
-          if (_currentUserId != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Center(
-                child: Text(
-                  'ID: $_currentUserId',
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
-                ),
-              ),
-            ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _signOut,
-          ),
+          // if (_currentUserId != null)
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 8.0),
+          //     child: Center(
+          //       child: Text(
+          //         'ID: $_currentUserId',
+          //         style: const TextStyle(fontSize: 12, color: Colors.black54),
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -112,91 +107,102 @@ class _MoodTrackScreenState extends State<MoodTrackScreen> {
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: 200,
-              child: MoodMonthlyChart(userId: _currentUserId),
-            ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(
+            maxWidth: 700,
           ),
-          Expanded(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(_currentUserId)
-                  .collection('moods')
-                  .orderBy('date', descending: true)
-                  .snapshots(),
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 250,
+                  child: MoodMonthlyChart(userId: _currentUserId),
+                ),
+              ),
+              Expanded(
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(_currentUserId)
+                      .collection('moods')
+                      .orderBy('date', descending: true)
+                      .snapshots(),
+                  builder: (context, asyncSnapshot) {
+                    if (asyncSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                if (asyncSnapshot.hasError) {
-                  return Center(child: Text('Error: ${asyncSnapshot.error}'));
-                }
+                    if (asyncSnapshot.hasError) {
+                      return Center(
+                          child: Text('Error: ${asyncSnapshot.error}'));
+                    }
 
-                if (!asyncSnapshot.hasData ||
-                    asyncSnapshot.data!.docs.isEmpty) {
-                  return const Center(
-                    child: Text('No mood entries yet!'),
-                  );
-                }
+                    if (!asyncSnapshot.hasData ||
+                        asyncSnapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child: Text('No mood entries yet!'),
+                      );
+                    }
 
-                final moodEntries = asyncSnapshot.data!.docs
-                    .map((doc) => MoodEntry.fromFirestore(doc.data(), doc.id))
-                    .toList();
+                    final moodEntries = asyncSnapshot.data!.docs
+                        .map((doc) =>
+                            MoodEntry.fromFirestore(doc.data(), doc.id))
+                        .toList();
 
-                final Map<String, List<MoodEntry>> grouped = {};
+                    final Map<String, List<MoodEntry>> grouped = {};
 
-                for (final entry in moodEntries) {
-                  final dateKey = DateFormat('yyyy-MM-dd').format(entry.date);
-                  if (!grouped.containsKey(dateKey)) {
-                    grouped[dateKey] = [];
-                  }
-                  grouped[dateKey]!.add(entry);
-                }
+                    for (final entry in moodEntries) {
+                      final dateKey =
+                          DateFormat('yyyy-MM-dd').format(entry.date);
+                      if (!grouped.containsKey(dateKey)) {
+                        grouped[dateKey] = [];
+                      }
+                      grouped[dateKey]!.add(entry);
+                    }
 
-                final sortedKeys = grouped.keys.toList()
-                  ..sort((a, b) => b.compareTo(a));
+                    final sortedKeys = grouped.keys.toList()
+                      ..sort((a, b) => b.compareTo(a));
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: sortedKeys.length,
-                  itemBuilder: (context, index) {
-                    final dateKey = sortedKeys[index];
-                    final entries = grouped[dateKey]!;
-                    final DateTime date = DateTime.parse(dateKey);
-                    final isToday = DateTime.now().year == date.year &&
-                        DateTime.now().month == date.month &&
-                        DateTime.now().day == date.day;
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: sortedKeys.length,
+                      itemBuilder: (context, index) {
+                        final dateKey = sortedKeys[index];
+                        final entries = grouped[dateKey]!;
+                        final DateTime date = DateTime.parse(dateKey);
+                        final isToday = DateTime.now().year == date.year &&
+                            DateTime.now().month == date.month &&
+                            DateTime.now().day == date.day;
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isToday
-                              ? 'Today - ${DateFormat("d MMM, yy").format(date)}'
-                              : DateFormat("d MMM, yy").format(date),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        ...entries.map((entry) => MoodEntryCard(
-                              context,
-                              entry: entry,
-                            )),
-                        const SizedBox(height: 16),
-                      ],
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isToday
+                                  ? 'Today - ${DateFormat("d MMM, yy").format(date)}'
+                                  : DateFormat("d MMM, yy").format(date),
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 8),
+                            ...entries.map((entry) => MoodEntryCard(
+                                  context,
+                                  entry: entry,
+                                )),
+                            const SizedBox(height: 16),
+                          ],
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          )
-        ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -400,57 +406,64 @@ class _AddMoodFlowScreenState extends State<AddMoodFlowScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                MoodSelectionPage(
-                  selectedMood: _selectedMood,
-                  onMoodSelected: (mood) =>
-                      setState(() => _selectedMood = mood),
-                ),
-                EmotionTriggerPage(
-                  selectedActivities: _selectedActivities,
-                  selectedPeople: _selectedPeople,
-                  selectedPlaces: _selectedPlaces,
-                  onActivitiesSelected: (val) =>
-                      setState(() => _selectedActivities = val),
-                  onPeopleSelected: (val) =>
-                      setState(() => _selectedPeople = val),
-                  onPlacesSelected: (val) =>
-                      setState(() => _selectedPlaces = val),
-                ),
-                NotesPage(
-                  initialNotes: _notes,
-                  onNotesChanged: (val) => _notes = val,
-                ),
-              ],
-            ),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(
+            maxWidth: 700,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isSaving ? null : _nextPage,
-                child: _isSaving
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(_currentPage < 2 ? 'Next' : 'Save'),
+          child: Column(
+            children: [
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    MoodSelectionPage(
+                      selectedMood: _selectedMood,
+                      onMoodSelected: (mood) =>
+                          setState(() => _selectedMood = mood),
+                    ),
+                    EmotionTriggerPage(
+                      selectedActivities: _selectedActivities,
+                      selectedPeople: _selectedPeople,
+                      selectedPlaces: _selectedPlaces,
+                      onActivitiesSelected: (val) =>
+                          setState(() => _selectedActivities = val),
+                      onPeopleSelected: (val) =>
+                          setState(() => _selectedPeople = val),
+                      onPlacesSelected: (val) =>
+                          setState(() => _selectedPlaces = val),
+                    ),
+                    NotesPage(
+                      initialNotes: _notes,
+                      onNotesChanged: (val) => _notes = val,
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isSaving ? null : _nextPage,
+                    child: _isSaving
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(_currentPage < 2 ? 'Next' : 'Save'),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -481,7 +494,7 @@ class MoodSelectionPage extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 4,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.0,
@@ -497,7 +510,7 @@ class MoodSelectionPage extends StatelessWidget {
                       color: isSelected
                           ? mood.color.withOpacity(0.1)
                           : Colors.grey[100],
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(12),
                       border: isSelected
                           ? Border.all(color: mood.color, width: 2)
                           : null,
@@ -723,27 +736,28 @@ class NotesPage extends StatelessWidget {
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
           const SizedBox(height: 24),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
+
+          //
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: TextField(
+              controller: TextEditingController(text: initialNotes),
+              onChanged: onNotesChanged,
+              maxLines: 8,
+              minLines: 6,
+              // expands: true,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: InputDecoration(
+                hintText: 'Write the text...',
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.all(16.0),
               ),
-              child: TextField(
-                controller: TextEditingController(text: initialNotes),
-                onChanged: onNotesChanged,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: InputDecoration(
-                  hintText: 'Write the text...',
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(16.0),
-                ),
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-              ),
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.sentences,
             ),
           ),
         ],
@@ -922,75 +936,76 @@ class MoodMonthlyChart extends StatelessWidget {
             ? "Overall Mood for ${DateFormat.MMMM().format(DateTime.now())}: ${getEmojiForScore(overallAverageScore)}"
             : "No mood data for ${DateFormat.MMMM().format(DateTime.now())}";
 
-        return SizedBox(
-          height: 300,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: [
-                //
-                Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      showingTooltipIndicators: [],
-                      titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 22,
-                            getTitlesWidget: (value, meta) => Text(
-                              value.toInt().toString(),
-                              style: const TextStyle(fontSize: 10),
-                            ),
+        return Column(
+          children: [
+            Divider(
+              thickness: .5,
+              height: 1,
+            ),
+            SizedBox(height: 8),
+            //
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: LineChart(
+                  LineChartData(
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 22,
+                          getTitlesWidget: (value, meta) => Text(
+                            value.toInt().toString(),
+                            style: const TextStyle(fontSize: 10),
                           ),
                         ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: true),
-                        ),
-                        topTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
-                        rightTitles: const AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
                       ),
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: spots,
-                          showingIndicators: [],
-                          isCurved: true,
-                          dotData: FlDotData(show: true),
-                          belowBarData: BarAreaData(
-                            show: true,
-                            color: Colors.green.withOpacity(0.3),
-                          ),
-                          color: Colors.green,
-                          preventCurveOverShooting: true,
-                          shadow: const Shadow(
-                              color: Colors.black12, blurRadius: 4),
-                        ),
-                      ],
-                      borderData: FlBorderData(show: false),
-                      gridData: FlGridData(show: true),
-                      minX: 1,
-                      maxX: DateTime(
-                              DateTime.now().year, DateTime.now().month + 1, 0)
-                          .day
-                          .toDouble(),
-                      minY: 0,
-                      maxY: 5,
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: true),
+                      ),
+                      topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
                     ),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: spots,
+                        isCurved: true,
+                        dotData: FlDotData(
+                          show: true,
+                        ),
+                        belowBarData: BarAreaData(
+                          show: true,
+                          color: Colors.green.withOpacity(0.3),
+                        ),
+                        color: Colors.green,
+                        preventCurveOverShooting: true,
+                        shadow:
+                            const Shadow(color: Colors.black12, blurRadius: 4),
+                      ),
+                    ],
+                    borderData: FlBorderData(show: false),
+                    gridData: FlGridData(show: true),
+                    minX: 1,
+                    maxX: DateTime(
+                            DateTime.now().year, DateTime.now().month + 1, 0)
+                        .day
+                        .toDouble(),
+                    minY: 0,
+                    maxY: 5,
                   ),
                 ),
-
-                //
-                Text(
-                  overallStatusText,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+              ),
             ),
-          ),
+
+            //
+            Text(
+              overallStatusText,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ],
         );
       },
     );

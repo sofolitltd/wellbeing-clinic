@@ -45,11 +45,13 @@ class _TestsState extends State<Tests> {
 
   @override
   Widget build(BuildContext context) {
-    setTabTitle('Tests', context);
+    setTabTitle('Tests - Wellbeing Clinic', context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tests'),
+        title: Text('Tests',
+            style: TextStyle(
+                color: Colors.indigo.shade700, fontWeight: FontWeight.bold)),
       ),
       body: Center(
         child: Container(

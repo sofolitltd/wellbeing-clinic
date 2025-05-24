@@ -48,63 +48,69 @@ class _BreathingExercisePageState extends State<BreathingExercisePage> {
         elevation: 4, // Consistent shadow for depth
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(25.0), // Consistent padding
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // --- Introduction Section ---
-                  _buildIntroSection(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 700),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(25.0), // Consistent padding
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // --- Introduction Section ---
+                      _buildIntroSection(),
 
-                  const SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
-                  // --- Disclaimer/Precautions Section ---
-                  _buildDisclaimerSection(),
+                      // --- Disclaimer/Precautions Section ---
+                      _buildDisclaimerSection(),
 
-                  const SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
-                  // --- Instructions Section (Expandable) ---
-                  _buildInstructionsSection(),
-                ],
-              ),
-            ),
-          ),
-          // --- Action Button (Start Exercise) ---
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Navigate to the new BreathingExerciseScreen
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const BreathingExerciseScreen()),
-                  );
-                },
-                icon: const Icon(Icons.play_arrow, color: Colors.white),
-                label: const Text(
-                  'অনুশীলন করুন', // Start Exercise
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue.shade700,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  elevation: 4,
+                      // --- Instructions Section (Expandable) ---
+                      _buildInstructionsSection(),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              // --- Action Button (Start Exercise) ---
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to the new BreathingExerciseScreen
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const BreathingExerciseScreen()),
+                      );
+                    },
+                    icon: const Icon(Icons.play_arrow, color: Colors.white),
+                    label: const Text(
+                      'অনুশীলন করুন', // Start Exercise
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue.shade700,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      elevation: 4,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -27,18 +27,19 @@ class BlogCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black12),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
+          spacing: 16,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 100,
-              width: 100,
+              height: 200,
+              width: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
+                  topLeft: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
                 ),
                 color: Colors.blue.shade50,
                 image: DecorationImage(
@@ -47,26 +48,29 @@ class BlogCard extends StatelessWidget {
                 ),
               ),
             ),
+
+            //
             Expanded(
               child: Container(
-                height: 100,
+                height: 200,
                 padding: const EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 12,
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Text(
-                        blog.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                      ),
+                    Text(
+                      blog.title,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            height: 1.5,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     Text(
