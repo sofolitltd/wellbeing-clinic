@@ -12,9 +12,9 @@ import '/blog/blog_details.dart';
 import 'blog/blog_screen.dart';
 import 'firebase_options.dart';
 import 'page/home.dart';
-import 'page/main_page.dart';
 import 'page/profile.dart';
 import 'page/unknown_route.dart';
+import 'page/wrapper.dart';
 import 'test/screens/preview.dart';
 import 'test/screens/test.dart';
 import 'test/screens/test_details.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const MainPage()),
+        GetPage(name: '/', page: () => const Wrapper()),
         GetPage(
           name: '/tests',
           page: () => const Tests(),

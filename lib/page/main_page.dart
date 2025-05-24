@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '/blog/blog_screen.dart';
 import '/test/screens/tests.dart';
+import 'exercise/exercise.dart';
+import 'mood/home_temp.dart';
+import 'mood/mood_track.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,13 +14,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    // Home(),
-    Tests(),
-    BlogScreen(),
-    // Profile(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
+    MoodTrackScreen(),
+    MentalHealthExercisesPage(),
+    const Tests(),
+    const BlogScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -46,22 +50,26 @@ class _MainPageState extends State<MainPage> {
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.home),
-            //   label: 'Home',
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Mood',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.track_changes),
+              label: 'Mood',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.earbuds),
+              label: 'Exercise',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.assignment),
               label: 'Tests',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.article),
+              icon: Icon(Icons.blinds_outlined),
               label: 'Blog',
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.person),
-            //   label: 'Profile',
-            // ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blueAccent.shade700,
