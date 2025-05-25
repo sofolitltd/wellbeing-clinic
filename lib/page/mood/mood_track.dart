@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/set_tab_title.dart';
@@ -114,6 +115,11 @@ class _MoodTrackScreenState extends State<MoodTrackScreen> {
           ),
           child: Column(
             children: [
+              Divider(
+                thickness: .5,
+                height: 1,
+              ),
+              SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SizedBox(
@@ -284,7 +290,7 @@ class MoodEntryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    entry.mood.capitalize(),
+                    entry.mood.capitalizeFirst,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -338,7 +344,9 @@ class _AddMoodFlowScreenState extends State<AddMoodFlowScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.selectedMood != null) {}
+    if (widget.selectedMood != null) {
+      _selectedMood = widget.selectedMood!;
+    }
   }
 
   @override
@@ -469,6 +477,7 @@ class _AddMoodFlowScreenState extends State<AddMoodFlowScreen> {
   }
 }
 
+//
 class MoodSelectionPage extends StatelessWidget {
   final Function(Mood) onMoodSelected;
   final Mood selectedMood;
@@ -481,6 +490,18 @@ class MoodSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Set column count based on screen width
+    int crossAxisCount;
+    if (screenWidth < 400) {
+      crossAxisCount = 2;
+    } else if (screenWidth < 600) {
+      crossAxisCount = 3;
+    } else {
+      crossAxisCount = 4;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -493,8 +514,8 @@ class MoodSelectionPage extends StatelessWidget {
           const SizedBox(height: 24),
           Expanded(
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 childAspectRatio: 1.0,
@@ -534,14 +555,13 @@ class MoodSelectionPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          mood.name.capitalize(),
+                          mood.name.capitalizeFirst,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.black54,
                           ),
                         ),
-                        const SizedBox(height: 4),
                       ],
                     ),
                   ),
@@ -555,6 +575,7 @@ class MoodSelectionPage extends StatelessWidget {
   }
 }
 
+//
 class EmotionTriggerPage extends StatefulWidget {
   final Function(List<String>) onActivitiesSelected;
   final Function(List<String>) onPeopleSelected;
@@ -819,13 +840,6 @@ class MoodEntry {
   }
 }
 
-extension StringExtension on String {
-  String capitalize() {
-    if (isEmpty) return this;
-    return "${this[0].toUpperCase()}${substring(1)}";
-  }
-}
-
 class MonthlyMoodChartData {
   final List<FlSpot> spots;
   final double overallAverageScore;
@@ -938,11 +952,6 @@ class MoodMonthlyChart extends StatelessWidget {
 
         return Column(
           children: [
-            Divider(
-              thickness: .5,
-              height: 1,
-            ),
-            SizedBox(height: 8),
             //
             Expanded(
               child: Padding(

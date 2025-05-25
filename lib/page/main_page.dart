@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:wellbeingclinic/page/profile.dart';
 
-import '/blog/blog_screen.dart';
+import '/page/blog/blog_screen.dart';
 import '/test/screens/tests.dart';
 import '../utils/set_tab_title.dart';
 import 'exercise/exercise.dart';
-import 'mood/home_temp.dart';
+import 'home_page.dart';
 import 'mood/mood_track.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  _MainPageState createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 4;
+  int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
@@ -23,6 +25,7 @@ class _MainPageState extends State<MainPage> {
     MentalHealthExercisesPage(),
     const Tests(),
     const BlogScreen(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -55,26 +58,33 @@ class _MainPageState extends State<MainPage> {
                   selectedIndex: _selectedIndex,
                   onDestinationSelected: _onItemTapped,
                   groupAlignment: 0,
+
                   destinations: const <NavigationRailDestination>[
                     NavigationRailDestination(
-                      icon: Icon(Icons.home),
+                      icon: Icon(LucideIcons.home),
                       label: Text('Home'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.track_changes),
+                      icon: Icon(LucideIcons.smilePlus),
                       label: Text('Mood'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.earbuds),
+                      icon: Icon(LucideIcons.box),
                       label: Text('Exercise'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.assignment),
+                      icon: Icon(LucideIcons.listChecks),
                       label: Text('Tests'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.blinds_outlined),
+                      icon: Icon(LucideIcons.book),
                       label: Text('Blog'),
+                    ),
+
+                    //profile
+                    NavigationRailDestination(
+                      icon: Icon(LucideIcons.user),
+                      label: Text('Profile'),
                     ),
                   ],
                 ),
@@ -92,24 +102,29 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: Colors.white,
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
+                      icon: Icon(LucideIcons.home),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(LucideIcons.smilePlus),
                       label: 'Mood',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.track_changes),
-                      label: 'Mood',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.earbuds),
+                      icon: Icon(LucideIcons.box),
                       label: 'Exercise',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.assignment),
+                      icon: Icon(LucideIcons.listChecks),
                       label: 'Tests',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.blinds_outlined),
+                      icon: Icon(LucideIcons.book),
                       label: 'Blog',
+                    ),
+                    //profile
+                    BottomNavigationBarItem(
+                      icon: Icon(LucideIcons.user),
+                      label: 'Profile',
                     ),
                   ],
                   currentIndex: _selectedIndex,

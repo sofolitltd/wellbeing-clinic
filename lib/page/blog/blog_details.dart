@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wellbeingclinic/utils/date_time_formatter.dart';
-import 'package:wellbeingclinic/utils/set_tab_title.dart';
 
-import '../model/blog_model.dart';
+import '/model/blog_model.dart';
+import '/utils/date_time_formatter.dart';
+import '/utils/set_tab_title.dart';
 
 class BlogDetails extends StatefulWidget {
   const BlogDetails({super.key});

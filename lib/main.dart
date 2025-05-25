@@ -4,17 +4,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wellbeingclinic/test/screens/multi_result_page.dart';
-import 'package:wellbeingclinic/test/screens/preview_multi.dart';
-import 'package:wellbeingclinic/test/screens/single_result_page.dart';
+import 'package:wellbeingclinic/page/auth/wrapper.dart';
 
-import '/blog/blog_details.dart';
-import 'blog/blog_screen.dart';
+import '/page/auth/login.dart';
+import '/page/blog/blog_details.dart';
+import '/test/screens/multi_result_page.dart';
+import '/test/screens/preview_multi.dart';
+import '/test/screens/single_result_page.dart';
 import 'firebase_options.dart';
-import 'page/home.dart';
+import 'page/auth/forgot_password.dart';
+import 'page/auth/registration.dart';
+import 'page/blog/blog_screen.dart';
+import 'page/main_page.dart';
 import 'page/profile.dart';
 import 'page/unknown_route.dart';
-import 'page/wrapper.dart';
 import 'test/screens/preview.dart';
 import 'test/screens/test.dart';
 import 'test/screens/test_details.dart';
@@ -63,6 +66,13 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => const Wrapper()),
         GetPage(
+          name: '/home',
+          page: () => const MainPage(),
+          transition: Transition.noTransition,
+        ),
+
+        // tests
+        GetPage(
           name: '/tests',
           page: () => const Tests(),
         ),
@@ -100,11 +110,8 @@ class MyApp extends StatelessWidget {
           page: () => MultiResultPreviewScreen(),
           transition: Transition.noTransition,
         ),
-        GetPage(
-          name: '/home',
-          page: () => const Home(),
-          transition: Transition.noTransition,
-        ),
+
+        //
         GetPage(
           name: '/blog',
           page: () => const BlogScreen(),
@@ -115,11 +122,21 @@ class MyApp extends StatelessWidget {
           page: () => const BlogDetails(),
           transition: Transition.noTransition,
         ),
+
+        //
         GetPage(
           name: '/profile',
           page: () => const Profile(),
           transition: Transition.noTransition,
         ),
+
+        //
+        GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/register', page: () => const RegistrationScreen()),
+        GetPage(
+            name: '/forgot-password', page: () => const ForgotPasswordScreen()),
+
+        //
       ],
       unknownRoute: GetPage(
         name: '/not-found',

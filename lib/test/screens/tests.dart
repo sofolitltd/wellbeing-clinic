@@ -116,7 +116,7 @@ class _TestsState extends State<Tests> {
               Expanded(
                 child: ListView.separated(
                   separatorBuilder: (context, index) => const SizedBox(
-                    height: 16,
+                    height: 20,
                   ),
                   itemCount: filteredTests.length,
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -147,10 +147,18 @@ class TestItem extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade400),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.all(12),
+            border: Border.all(color: Colors.black12),
+            borderRadius: BorderRadius.circular(8),
+            //shadow
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6,
+                offset: Offset(0, 3),
+              ),
+            ]),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,7 +176,7 @@ class TestItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 14,
-                height: 1.3,
+                height: 1.5,
               ),
             ),
 
@@ -176,7 +184,7 @@ class TestItem extends StatelessWidget {
 
             const Divider(
               height: 16,
-              thickness: .8,
+              thickness: .2,
             ),
 
             //

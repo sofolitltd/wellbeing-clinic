@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../exercise/exercise.dart';
-import 'mood_track.dart'; // For date formatting
+import '../utils/set_tab_title.dart';
+import 'exercise/exercise.dart';
+import 'mood/mood_track.dart'; // For date formatting
 
 //
 class HomePage extends StatefulWidget {
@@ -14,27 +16,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    setTabTitle('Home - Wellbeing Clinic', context);
+
     //
     return Scaffold(
       appBar: AppBar(
-        title: Text('ওয়েলবিং ক্লিনিক',
-            style: TextStyle(
-                color: Colors.indigo.shade700, fontWeight: FontWeight.bold)),
         centerTitle: true,
         elevation: 4,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              try {
-                await auth.signOut().then((_) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (route) => false);
-                });
-              } catch (_) {}
-            },
+        title: Text(
+          'ওয়েলবিং ক্লিনিক',
+          style: TextStyle(
+            color: Colors.indigo.shade700,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
       ),
       body: Center(
         child: Container(
@@ -59,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'Explore Our Exercises', // Title for the horizontal section
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.indigo.shade800,
                       ),
@@ -126,7 +121,7 @@ class MoodTrackingSection extends StatelessWidget {
               child: Text(
                 'How you felling today!',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.indigo.shade800,
                 ),
@@ -156,7 +151,7 @@ class MoodTrackingSection extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(mood.emoji, style: const TextStyle(fontSize: 45)),
-                        Text(mood.name.capitalize(),
+                        Text(mood.name.capitalizeFirst,
                             style: const TextStyle(fontSize: 14)),
                       ],
                     ),

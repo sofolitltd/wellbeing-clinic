@@ -92,7 +92,7 @@ class MentalHealthExercisesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Guided Mental Health Exercises',
+          'Mental Health Exercises',
           style: TextStyle(
             color: Colors.indigo.shade700, // Deep indigo AppBar
             fontWeight: FontWeight.bold,
@@ -107,8 +107,7 @@ class MentalHealthExercisesPage extends StatelessWidget {
           constraints: const BoxConstraints(
             maxWidth: 700,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
               Divider(height: 1, thickness: .5),
               //
@@ -126,33 +125,32 @@ class MentalHealthExercisesPage extends StatelessWidget {
               ),
 
               //
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio:
-                        MediaQuery.sizeOf(context).width < 700 ? .85 : 1.3,
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  itemCount: exerciseCategories.length,
-                  itemBuilder: (context, index) {
-                    final category = exerciseCategories[index];
-
-                    //
-                    return buildDetailedHorizontalCard(
-                      // Using the detailed card builder
-                      context: context,
-                      title: category['title']!,
-                      description: category['description']!,
-                      icon: category['icon'] as IconData,
-                      gradientColors: category['gradientColors'] as List<Color>,
-                      onPressed:
-                          category['onPressed'] as Function(BuildContext),
-                    );
-                  },
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio:
+                      MediaQuery.sizeOf(context).width < 700 ? .85 : 1.3,
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                itemCount: exerciseCategories.length,
+                itemBuilder: (context, index) {
+                  final category = exerciseCategories[index];
+
+                  //
+                  return buildDetailedHorizontalCard(
+                    // Using the detailed card builder
+                    context: context,
+                    title: category['title']!,
+                    description: category['description']!,
+                    icon: category['icon'] as IconData,
+                    gradientColors: category['gradientColors'] as List<Color>,
+                    onPressed: category['onPressed'] as Function(BuildContext),
+                  );
+                },
               ),
             ],
           ),

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../model/blog_model.dart';
-import '../utils/set_tab_title.dart';
+import '/model/blog_model.dart';
+import '/utils/set_tab_title.dart';
 import 'blog_card.dart';
 
 class BlogScreen extends StatelessWidget {
