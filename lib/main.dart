@@ -26,10 +26,6 @@ import 'test/screens/tests.dart';
 //
 // firebase deploy --only hosting:wellbeingclinic
 Future<void> main() async {
-  // if (kIsWeb) {
-  //   usePathUrlStrategy();
-  // }
-
   //
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

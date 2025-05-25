@@ -36,8 +36,8 @@ class BlogCard extends StatelessWidget {
             final isNarrow = constraints.maxWidth < 400;
 
             // For mobile/smaller width: reduce image width and allow text to expand more
-            final imageWidth = isNarrow ? 100.0 : 180.0;
-            final imageHeight = 180.0;
+            final imageWidth = isNarrow ? 150.0 : 180.0;
+            final imageHeight = isNarrow ? 150.0 : 180.0;
 
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,8 +74,8 @@ class BlogCard extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    height: 1.3,
+                                    fontSize: isNarrow ? 14 : 18,
+                                    height: 1.5,
                                   ),
                         ),
                         const SizedBox(height: 8),

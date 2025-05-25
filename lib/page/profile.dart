@@ -120,80 +120,28 @@ class _ProfileState extends State<Profile> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 40),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Avatar
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            //
-                            Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundColor: Colors.indigo.shade100,
-                                  child: ClipOval(
-                                    child: Icon(Icons.person,
-                                        size: 50,
-                                        color: Colors.indigo.shade400),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 6,
-                                  child: CircleAvatar(
-                                    radius: 14,
-                                    backgroundColor: Colors.indigo.shade700,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.edit,
-                                          color: Colors.white),
-                                      onPressed: () {
-                                        // TODO: Edit avatar
-                                      },
-                                      iconSize: 16,
-                                      padding: EdgeInsets.zero,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        //
 
-                            const SizedBox(width: 16),
-
-                            // Name
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  name,
-                                  style:
-                                      theme.textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.indigo.shade900,
-                                    letterSpacing: 1.2,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                // Email
-                                Text(
-                                  email,
-                                  style: theme.textTheme.titleMedium?.copyWith(
-                                    color: Colors.indigo.shade700,
-                                    letterSpacing: 0.5,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ],
+                        Text(
+                          name,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigo.shade900,
+                            fontSize: 20,
+                            letterSpacing: 1.2,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
 
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 24),
 
                         // Info fields with icons
-                        _infoRow(Icons.phone, 'Phone', mobile),
+                        _infoRow(Icons.phone, mobile),
                         const SizedBox(height: 18),
-                        _infoRow(Icons.info_outline, 'Bio', ''),
+                        _infoRow(Icons.email, email),
 
                         const SizedBox(height: 40),
 
@@ -244,26 +192,17 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _infoRow(IconData icon, String label, String content) {
+  Widget _infoRow(IconData icon, String content) {
     return Row(
       children: [
         Icon(icon, color: Colors.indigo.shade700, size: 26),
         const SizedBox(width: 16),
-        Text(
-          '$label:',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.indigo.shade800,
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(width: 10),
         Expanded(
           child: Text(
             content,
             style: TextStyle(
               color: Colors.indigo.shade600,
-              fontSize: 15,
+              fontSize: 17,
             ),
           ),
         ),
