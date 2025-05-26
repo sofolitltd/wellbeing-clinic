@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wellbeingclinic/page/tools/schedule_week.dart';
 
 import '../utils/set_tab_title.dart';
 import 'exercise/exercise.dart';
-import 'mood/mood_track.dart'; // For date formatting
+import 'mood/mood_track.dart';
 
 //
 class HomePage extends StatefulWidget {
@@ -90,6 +91,41 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
+              ),
+
+              //
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 16.0, top: 20.0, bottom: 10.0),
+                child: Text(
+                  'Useful Tools', // Title for the horizontal section
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo.shade800,
+                  ),
+                ),
+              ),
+
+              //
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListTile(
+                  tileColor: Colors.indigo.shade50,
+                  onTap: () {
+                    // go to ScheduleListPage
+                    Get.to(() => ScheduleListPage());
+                  },
+                  title: Text(
+                    'Activity Schedule',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo.shade800,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                ),
               ),
             ],
           ),

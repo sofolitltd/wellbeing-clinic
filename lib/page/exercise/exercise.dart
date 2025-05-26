@@ -152,6 +152,9 @@ class MentalHealthExercisesPage extends StatelessWidget {
                   );
                 },
               ),
+
+              //
+              SizedBox(height: 40)
             ],
           ),
         ),

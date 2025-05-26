@@ -73,8 +73,8 @@ class BlogCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: isNarrow ? 14 : 18,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: isNarrow ? 16 : 18,
                                     height: 1.5,
                                   ),
                         ),

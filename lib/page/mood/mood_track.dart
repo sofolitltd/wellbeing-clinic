@@ -127,6 +127,8 @@ class _MoodTrackScreenState extends State<MoodTrackScreen> {
                   child: MoodMonthlyChart(userId: _currentUserId),
                 ),
               ),
+
+              //
               Expanded(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
@@ -266,61 +268,199 @@ class MoodEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 12, 4, 12),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 24,
-              child: Text(
-                entry.emoji,
-                style: const TextStyle(fontSize: 24),
+    return GestureDetector(
+      onTap: () => _showMoodEntryDialog(context, entry),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                child: Text(
+                  entry.emoji,
+                  style: const TextStyle(fontSize: 24),
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    entry.mood.capitalizeFirst,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.mood.capitalizeFirst,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    DateFormat('hh:mm a').format(entry.date),
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                  ),
-                ],
+                    Text(
+                      DateFormat('hh:mm a').format(entry.date),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            IconButton(
-              visualDensity: VisualDensity.compact,
-              onPressed: () {
-                _showDeleteConfirmation(context, entry.id);
-              },
-              icon: Icon(
-                Icons.delete,
-                color: Colors.red,
-                size: 20,
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                onPressed: () {
+                  _showDeleteConfirmation(context, entry.id);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 20,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
+//
+void _showMoodEntryDialog(BuildContext context, MoodEntry entry) {
+  showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        constraints: BoxConstraints(maxWidth: 400),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header with emoji and mood
+              Row(
+                children: [
+                  Text(
+                    entry.emoji,
+                    style: const TextStyle(fontSize: 40),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      entry.mood.capitalizeFirst,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+
+              // Date and score
+              Text(
+                "Date: ${DateFormat('d MMMM, y').format(entry.date)}",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.indigo[700]),
+              ),
+
+              const Divider(height: 20, thickness: 1),
+
+              // Activities
+              if (entry.activities.isNotEmpty) ...[
+                const Text(
+                  'Activities',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  children: entry.activities
+                      .map((act) => Chip(
+                            label: Text(act),
+                            backgroundColor: Colors.indigo.shade50,
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 12),
+              ],
+
+              // People
+              if (entry.people.isNotEmpty) ...[
+                const Text(
+                  'People',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  children: entry.people
+                      .map((p) => Chip(
+                            label: Text(p),
+                            backgroundColor: Colors.green.shade50,
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 12),
+              ],
+
+              // Places
+              if (entry.places.isNotEmpty) ...[
+                const Text(
+                  'Places',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 6,
+                  children: entry.places
+                      .map((place) => Chip(
+                            label: Text(place),
+                            backgroundColor: Colors.orange.shade50,
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 12),
+              ],
+
+              // Notes
+              if (entry.notes.isNotEmpty) ...[
+                const Text(
+                  'Notes',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    entry.notes,
+                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+//
 class AddMoodFlowScreen extends StatefulWidget {
   const AddMoodFlowScreen({super.key, this.selectedMood});
 
