@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'activity_table.dart';
@@ -39,6 +38,8 @@ class Schedule {
 }
 
 class ScheduleListPage extends StatefulWidget {
+  const ScheduleListPage({super.key});
+
   @override
   State<ScheduleListPage> createState() => _ScheduleListPageState();
 }
@@ -140,12 +141,18 @@ class _ScheduleListPageState extends State<ScheduleListPage> {
                     final s = schedules[index];
 
                     //
-                    return InkWell(
+                    return GestureDetector(
                       onTap: () {
-                        Get.to(() => ActivitySchedulePage(
+                        //
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ActivityTable(
                               scheduleId: s.id,
                               scheduleName: s.name,
-                            ));
+                            ),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(16),

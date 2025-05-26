@@ -2,44 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ActivitySchedulePage extends StatefulWidget {
+final List<String> days = [
+  'শনিবার',
+  'রবিবার',
+  'সোমবার',
+  'মঙ্গলবার',
+  'বুধবার',
+  'বৃহস্পতিবার',
+  'শুক্রবার'
+];
+
+final List<String> timeSlots = [
+  'সকাল ৬টা - ৮টা',
+  'সকাল ৮টা - ১০টা',
+  'দুপুর ১০টা - ১২টা',
+  'দুপুর ১২টা - ২টা',
+  'বিকেল ২টা - ৪টা',
+  'বিকেল ৪টা - ৬টা',
+  'সন্ধ্যা ৬টা - ৮টা',
+  'রাত ৮টা - ১০টা',
+  'রাত ১০টা - ১২টা',
+  'রাত ১২টা - সকাল ৬টা',
+];
+
+class ActivityTable extends StatefulWidget {
   final String scheduleId;
   final String scheduleName;
 
-  const ActivitySchedulePage({
+  const ActivityTable({
     super.key,
     required this.scheduleId,
     required this.scheduleName,
   });
 
   @override
-  State<ActivitySchedulePage> createState() => _ActivitySchedulePageState();
+  State<ActivityTable> createState() => _ActivityTableState();
 }
 
-class _ActivitySchedulePageState extends State<ActivitySchedulePage> {
-  final List<String> days = [
-    'শনিবার',
-    'রবিবার',
-    'সোমবার',
-    'মঙ্গলবার',
-    'বুধবার',
-    'বৃহস্পতিবার',
-    'শুক্রবার'
-  ];
-
-  final List<String> timeSlots = [
-    'সকাল ৬টা - ৮টা',
-    'সকাল ৮টা - ১০টা',
-    'দুপুর ১০টা - ১২টা',
-    'দুপুর ১২টা - ২টা',
-    'বিকেল ২টা - ৪টা',
-    'বিকেল ৪টা - ৬টা',
-    'সন্ধ্যা ৬টা - ৮টা',
-    'রাত ৮টা - ১০টা',
-    'রাত ১০টা - ১২টা',
-    'রাত ১২টা - সকাল ৬টা',
-  ];
-
+class _ActivityTableState extends State<ActivityTable> {
   Map<String, Map<String, String>> activities = {};
   bool _loading = true;
 

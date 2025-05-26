@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:wellbeingclinic/page/profile.dart';
 
 import '/page/blog/blog_screen.dart';
@@ -61,29 +60,29 @@ class _MainPageState extends State<MainPage> {
 
                   destinations: const <NavigationRailDestination>[
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.home),
+                      icon: Icon(Icons.home),
                       label: Text('Home'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.smilePlus),
+                      icon: Icon(Icons.face),
                       label: Text('Mood'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.box),
+                      icon: Icon(Icons.account_balance_wallet_outlined),
                       label: Text('Exercise'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.listChecks),
+                      icon: Icon(Icons.book_outlined),
                       label: Text('Tests'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.book),
+                      icon: Icon(Icons.invert_colors_on),
                       label: Text('Blog'),
                     ),
 
                     //profile
                     NavigationRailDestination(
-                      icon: Icon(LucideIcons.user),
+                      icon: Icon(Icons.people),
                       label: Text('Profile'),
                     ),
                   ],
@@ -102,28 +101,28 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: Colors.white,
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.home),
+                      icon: Icon(Icons.home),
                       label: 'Home',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.smilePlus),
+                      icon: Icon(Icons.face),
                       label: 'Mood',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.box),
+                      icon: Icon(Icons.account_balance_wallet_outlined),
                       label: 'Exercise',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.listChecks),
+                      icon: Icon(Icons.book_outlined),
                       label: 'Tests',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.book),
+                      icon: Icon(Icons.invert_colors_on),
                       label: 'Blog',
                     ),
                     //profile
                     BottomNavigationBarItem(
-                      icon: Icon(LucideIcons.user),
+                      icon: Icon(Icons.people),
                       label: 'Profile',
                     ),
                   ],

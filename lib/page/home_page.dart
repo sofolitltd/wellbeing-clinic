@@ -108,10 +108,44 @@ class _HomePageState extends State<HomePage> {
               ),
 
               //
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              Container(
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.15),
+                      spreadRadius: 1,
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
                 child: ListTile(
                   tileColor: Colors.indigo.shade50,
+                  isThreeLine: true,
+                  contentPadding: EdgeInsets.zero,
+                  subtitle: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      //
+                      Column(
+                        children: [
+                          SizedBox(height: 8),
+
+                          //
+                          Text(
+                              'পরিকল্পিত সময়সূচি যেখানে প্রতিদিনের গুরুত্বপূর্ণ কাজগুলো নির্দিষ্ট সময়ে করা হয়। এটি সময় ব্যবস্থাপনা উন্নত করে, দায়িত্বশীলতা বাড়ায় এবং মানসিক স্থিরতা এনে দেয়। নিয়মিত স্কেজুল অনুসরণ করলে প্রোডাক্টিভিটি ও আত্মনিয়ন্ত্রণ বৃদ্ধি পায়।'),
+                        ],
+                      ),
+
+                      //
+                      Icon(Icons.arrow_forward_ios, size: 16),
+                    ],
+                  ),
                   onTap: () {
                     // go to ScheduleListPage
                     Get.to(() => ScheduleListPage());
@@ -124,9 +158,11 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.indigo.shade800,
                     ),
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios, size: 16),
                 ),
               ),
+
+              //
+              SizedBox(height: 40),
             ],
           ),
         ),
