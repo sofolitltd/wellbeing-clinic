@@ -207,242 +207,246 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
-      body: Row(
-        children: [
-          if (!isMobile)
-            Expanded(
-              child: Container(
-                color: const Color(0xFFF7F8FC),
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/logo.png', // Your logo
-                          height: 40,
-                        ),
-                        const SizedBox(width: 16),
-                        const Text(
-                          'Wellbeing Clinic',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (!isMobile)
+              Expanded(
+                child: Container(
+                  color: const Color(0xFFF7F8FC),
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/logo.png', // Your logo
+                            height: 40,
+                          ),
+                          const SizedBox(width: 16),
+                          const Text(
+                            'Wellbeing Clinic',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      const Text(
+                        'Your mental health matters. Get support that fits your life.',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Trusted by many people to improve their emotional wellbeing.',
+                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                      ),
+                      const SizedBox(height: 32),
+                      const Card(
+                        color: Color(0xFFE7ECFB),
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.format_quote,
+                                  color: Colors.blue, size: 30),
+                              SizedBox(height: 8),
+                              Text(
+                                'I felt heard, supported, and understood. This clinic helped me regain balance in my life.',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              SizedBox(height: 12),
+                              Text(
+                                '~ ',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    const Text(
-                      'Your mental health matters. Get support that fits your life.',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Trusted by many people to improve their emotional wellbeing.',
-                      style: TextStyle(fontSize: 16, color: Colors.black54),
-                    ),
-                    const SizedBox(height: 32),
-                    const Card(
-                      color: Color(0xFFE7ECFB),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(Icons.format_quote,
-                                color: Colors.blue, size: 30),
-                            SizedBox(height: 8),
-                            Text(
-                              'I felt heard, supported, and understood. This clinic helped me regain balance in my life.',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(height: 12),
-                            Text(
-                              '~ ',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        //
-                        const Text(
-                          'Welcome Back',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Log in to Wellbeing Clinic',
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
-                        ),
-                        const SizedBox(height: 24),
-                        // OutlinedButton.icon(
-                        //   icon: _isGoogleLoading
-                        //       ? Stack(
-                        //           children: [
-                        //             Image.network(
-                        //               'https://img.icons8.com/color/512/google-logo.png',
-                        //               height: 20,
-                        //               //gray scale
-                        //               color: Colors.grey,
-                        //             ),
-                        //             const SizedBox(
-                        //               height: 20,
-                        //               width: 20,
-                        //               child: CircularProgressIndicator(
-                        //                   strokeWidth: 2),
-                        //             ),
-                        //           ],
-                        //         )
-                        //       : Image.network(
-                        //           'https://img.icons8.com/color/512/google-logo.png',
-                        //           height: 20),
-                        //   label: const Text('Continue with Google'),
-                        //   onPressed:
-                        //       _isGoogleLoading ? null : handleGoogleSignIn,
-                        //   style: OutlinedButton.styleFrom(
-                        //     padding: const EdgeInsets.symmetric(vertical: 16),
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 24),
-                        // Row(children: const [
-                        //   Expanded(child: Divider()),
-                        //   Padding(
-                        //     padding: EdgeInsets.symmetric(horizontal: 8),
-                        //     child: Text("or"),
-                        //   ),
-                        //   Expanded(child: Divider()),
-                        // ]),
-                        // const SizedBox(height: 24),
-                        TextFormField(
-                          controller: _emailController,
-                          focusNode: _emailFocus,
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          decoration: inputDecoration('Email'),
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(val)) {
-                              return 'Enter a valid email';
-                            }
-                            return null;
-                          },
-                          onFieldSubmitted: (_) => FocusScope.of(context)
-                              .requestFocus(_passwordFocus),
-                        ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _passwordController,
-                          focusNode: _passwordFocus,
-                          obscureText: !_passwordVisible,
-                          textInputAction: TextInputAction.done,
-                          decoration: inputDecoration('Password').copyWith(
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _passwordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _passwordVisible = !_passwordVisible;
-                                });
-                              },
-                            ),
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          //
+                          const Text(
+                            'Welcome Back',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
                           ),
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            if (val.length < 6) {
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null;
-                          },
-                          onFieldSubmitted: (_) => _handleEmailSignIn(),
-                        ),
-                        const SizedBox(height: 8),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: _goToForgotPassword,
-                            child: const Text('Forgot password?'),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Log in to Wellbeing Clinic',
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.black54),
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed:
-                              _isEmailLoading ? null : _handleEmailSignIn,
-                          style: ElevatedButton.styleFrom(
-                            visualDensity: VisualDensity.comfortable,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            backgroundColor: Colors.blueAccent.shade700,
-                            foregroundColor: Colors.black87,
+                          const SizedBox(height: 24),
+                          // OutlinedButton.icon(
+                          //   icon: _isGoogleLoading
+                          //       ? Stack(
+                          //           children: [
+                          //             Image.network(
+                          //               'https://img.icons8.com/color/512/google-logo.png',
+                          //               height: 20,
+                          //               //gray scale
+                          //               color: Colors.grey,
+                          //             ),
+                          //             const SizedBox(
+                          //               height: 20,
+                          //               width: 20,
+                          //               child: CircularProgressIndicator(
+                          //                   strokeWidth: 2),
+                          //             ),
+                          //           ],
+                          //         )
+                          //       : Image.network(
+                          //           'https://img.icons8.com/color/512/google-logo.png',
+                          //           height: 20),
+                          //   label: const Text('Continue with Google'),
+                          //   onPressed:
+                          //       _isGoogleLoading ? null : handleGoogleSignIn,
+                          //   style: OutlinedButton.styleFrom(
+                          //     padding: const EdgeInsets.symmetric(vertical: 16),
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 24),
+                          // Row(children: const [
+                          //   Expanded(child: Divider()),
+                          //   Padding(
+                          //     padding: EdgeInsets.symmetric(horizontal: 8),
+                          //     child: Text("or"),
+                          //   ),
+                          //   Expanded(child: Divider()),
+                          // ]),
+                          // const SizedBox(height: 24),
+                          TextFormField(
+                            controller: _emailController,
+                            focusNode: _emailFocus,
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            decoration: inputDecoration('Email'),
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                  .hasMatch(val)) {
+                                return 'Enter a valid email';
+                              }
+                              return null;
+                            },
+                            onFieldSubmitted: (_) => FocusScope.of(context)
+                                .requestFocus(_passwordFocus),
                           ),
-                          child: _isEmailLoading
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.black87,
-                                  ),
-                                )
-                              : Text(
-                                  'Proceed',
-                                  style: TextStyle(
-                                    color: _isEmailLoading
-                                        ? Colors.grey
-                                        : Colors.white,
-                                  ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _passwordController,
+                            focusNode: _passwordFocus,
+                            obscureText: !_passwordVisible,
+                            textInputAction: TextInputAction.done,
+                            decoration: inputDecoration('Password').copyWith(
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Don’t have an account? "),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed('/register');
-                              },
-                              child: const Text('Sign up'),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
                             ),
-                          ],
-                        )
-                      ],
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              if (val.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              }
+                              return null;
+                            },
+                            onFieldSubmitted: (_) => _handleEmailSignIn(),
+                          ),
+                          const SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: _goToForgotPassword,
+                              child: const Text('Forgot password?'),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          ElevatedButton(
+                            onPressed:
+                                _isEmailLoading ? null : _handleEmailSignIn,
+                            style: ElevatedButton.styleFrom(
+                              visualDensity: VisualDensity.comfortable,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              backgroundColor: Colors.blueAccent.shade700,
+                              foregroundColor: Colors.black87,
+                            ),
+                            child: _isEmailLoading
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.black87,
+                                    ),
+                                  )
+                                : Text(
+                                    'Proceed',
+                                    style: TextStyle(
+                                      color: _isEmailLoading
+                                          ? Colors.grey
+                                          : Colors.white,
+                                    ),
+                                  ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Don’t have an account? "),
+                              TextButton(
+                                onPressed: () {
+                                  Get.toNamed('/register');
+                                },
+                                child: const Text('Sign up'),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

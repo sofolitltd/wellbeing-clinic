@@ -62,21 +62,25 @@ class BlogCard extends StatelessWidget {
                   child: Container(
                     height: imageHeight,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 16),
+                        vertical: 12, horizontal: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          blog.title,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: isNarrow ? 16 : 18,
-                                    height: 1.5,
-                                  ),
+                        Expanded(
+                          child: Text(
+                            blog.title,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: isNarrow ? 16 : 18,
+                                  height: 1.5,
+                                ),
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -84,6 +88,7 @@ class BlogCard extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: Colors.blueGrey,
+                                    height: 1.3,
                                   ),
                         ),
                       ],

@@ -10,7 +10,7 @@ class BlogDetails extends StatefulWidget {
   const BlogDetails({super.key});
 
   @override
-  _BlogDetailsState createState() => _BlogDetailsState();
+  State<BlogDetails> createState() => _BlogDetailsState();
 }
 
 class _BlogDetailsState extends State<BlogDetails> {
@@ -27,6 +27,7 @@ class _BlogDetailsState extends State<BlogDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Wellbeing Clinic'),
       ),
       body: SelectionArea(
@@ -54,16 +55,30 @@ class _BlogDetailsState extends State<BlogDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      //
                       Image.network(
                         blog.image,
-                        height: 500,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height:
+                            MediaQuery.sizeOf(context).width < 400 ? 350 : 500,
                       ),
                       const SizedBox(height: 16),
+
+                      //
                       Text(
                         blog.title,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MediaQuery.sizeOf(context).width < 400
+                                  ? 24
+                                  : 26,
+                            ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       Text(
                         DTFormatter.dateFormat(blog.date),
                         style:
@@ -71,7 +86,7 @@ class _BlogDetailsState extends State<BlogDetails> {
                                   color: Colors.blueGrey,
                                 ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       Text(
                         blog.content,
                         style: Theme.of(context).textTheme.bodyLarge,

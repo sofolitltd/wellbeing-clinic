@@ -177,10 +177,10 @@ Widget buildDetailedHorizontalCard({
       borderRadius: BorderRadius.circular(15),
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.shade300.withOpacity(0.5),
-          spreadRadius: 0,
-          blurRadius: 10,
-          offset: const Offset(0, 5),
+          color: Colors.black12.withValues(alpha: 0.05),
+          spreadRadius: 5,
+          blurRadius: 5,
+          offset: const Offset(2, 2),
         ),
       ],
       gradient: LinearGradient(

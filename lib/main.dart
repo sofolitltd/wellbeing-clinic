@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellbeingclinic/page/auth/wrapper.dart';
@@ -12,6 +13,7 @@ import '/test/screens/multi_result_page.dart';
 import '/test/screens/preview_multi.dart';
 import '/test/screens/single_result_page.dart';
 import 'firebase_options.dart';
+import 'page/ai_agent/ai_chat.dart';
 import 'page/auth/forgot_password.dart';
 import 'page/auth/registration.dart';
 import 'page/blog/blog_screen.dart';
@@ -31,6 +33,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await dotenv.load(fileName: ".env");
 
   runApp(MyApp());
 }
@@ -133,6 +137,7 @@ class MyApp extends StatelessWidget {
             name: '/forgot-password', page: () => const ForgotPasswordScreen()),
 
         //
+        GetPage(name: '/chat', page: () => const ChatScreen()),
       ],
       unknownRoute: GetPage(
         name: '/not-found',

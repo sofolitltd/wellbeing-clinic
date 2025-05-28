@@ -43,33 +43,118 @@ class _HomePageState extends State<HomePage> {
               // Your horizontal mood list section
               MoodTrackingSection(),
 
-              // const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
               //
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed('/chat');
+                  },
+                  borderRadius: BorderRadius.circular(15.0), // Rounded corners
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color:
+                          Colors.black87, // Background color of the container
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      width: double.infinity, // Take full width
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          //
+                          const Column(
+                            spacing: 8,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.support, // Chat icon
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'ওয়েলবিং ক্লিনিক এআই', // Title
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      height: 1,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              //
+                              Text(
+                                "আমাদের এআই সহকারী আপনাকে মানসিক স্বাস্থ্য সম্পর্কিত বিভিন্ন প্রশ্নের সহজ ও বোধগম্য উত্তর প্রদানের মাধ্যমে দ্রুত প্রাথমিক সহায়তা দিতে প্রস্তুত",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+
+                          //
+                          Icon(
+                            Icons.arrow_right_alt_rounded,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 16.0, top: 20.0, bottom: 10.0),
+                      left: 16.0,
+                      top: 20.0,
+                    ),
                     child: Text(
-                      'Explore Our Exercises', // Title for the horizontal section
+                      'প্রয়োজনীয় ব্যায়াম',
+                      // Title for the horizontal section
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.indigo.shade800,
                       ),
                     ),
                   ),
                   Container(
-                    height: 270,
-                    padding: EdgeInsets.symmetric(vertical: 14),
+                    height: 300,
+                    // color: Colors.red,
+                    padding: EdgeInsets.symmetric(vertical: 0),
                     // This ensures the ListView takes all remaining vertical space
                     child: ListView.separated(
-                      separatorBuilder: (context, index) => SizedBox(width: 16),
-                      scrollDirection:
-                          Axis.horizontal, // Enable horizontal scrolling
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      separatorBuilder: (context, index) => SizedBox(width: 20),
+                      scrollDirection: Axis.horizontal,
+                      // Enable horizontal scrolling
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
                       itemCount: exerciseCategories.length,
                       itemBuilder: (context, index) {
                         final category = exerciseCategories[index];
@@ -95,12 +180,14 @@ class _HomePageState extends State<HomePage> {
 
               //
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 20.0, bottom: 10.0),
+                padding: const EdgeInsets.only(
+                  left: 16.0,
+                  top: 20.0,
+                ),
                 child: Text(
-                  'Useful Tools', // Title for the horizontal section
+                  'মানসিক সুস্থতা ও অনুশীলন',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.indigo.shade800,
                   ),
@@ -187,11 +274,12 @@ class MoodTrackingSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //
             Padding(
               padding:
                   const EdgeInsets.only(left: 16.0, top: 20.0, bottom: 10.0),
               child: Text(
-                'How you felling today!',
+                "আজকে আপনার অনুভূতি কেমন?",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -199,6 +287,7 @@ class MoodTrackingSection extends StatelessWidget {
                 ),
               ),
             ),
+            //
             SizedBox(
               height: 100, // Fixed height for the horizontal list of mood cards
               child: ListView.separated(
@@ -231,7 +320,6 @@ class MoodTrackingSection extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 20), // Space after the horizontal list
           ],
         ),
       ),
