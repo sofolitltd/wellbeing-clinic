@@ -3,12 +3,16 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'model/mood.dart';
+
 class MonthlyMoodChartData {
   final List<FlSpot> spots;
   final double overallAverageScore;
 
-  MonthlyMoodChartData(
-      {required this.spots, required this.overallAverageScore});
+  MonthlyMoodChartData({
+    required this.spots,
+    required this.overallAverageScore,
+  });
 }
 
 class MoodMonthlyChart extends StatelessWidget {
@@ -23,11 +27,8 @@ class MoodMonthlyChart extends StatelessWidget {
     }
 
     final now = DateTime.now();
-
     final startOfMonth = DateTime(now.year, now.month, 1);
-
     final startOfNextMonth = DateTime(now.year, now.month + 1, 1);
-
     final lastDayOfCurrentMonth = DateTime(now.year, now.month + 1, 0).day;
 
     return FirebaseFirestore.instance
@@ -38,46 +39,48 @@ class MoodMonthlyChart extends StatelessWidget {
         .where('date', isLessThan: startOfNextMonth)
         .snapshots()
         .map((snapshot) {
-      final moodData = <int, List<int>>{};
-      double totalScoresSum = 0;
-      int totalScoresCount = 0;
+      final moodData = <int, List<double>>{};
 
       for (final doc in snapshot.docs) {
         final data = doc.data();
         final timestamp = data['date'] as Timestamp?;
-        final score = data['score'] as int?;
+        final scoreRaw = data['score'];
 
-        if (timestamp != null && score != null) {
+        if (timestamp != null && scoreRaw != null) {
           final date = timestamp.toDate();
           final day = date.day;
 
+          final score = (scoreRaw as num).toDouble();
+
           moodData.putIfAbsent(day, () => []);
           moodData[day]!.add(score);
-
-          totalScoresSum += score;
-          totalScoresCount++;
         }
       }
 
       final spots = <FlSpot>[];
+      double dailyAverageSum = 0;
+      int daysWithDataCount = 0;
 
       for (var day = 1; day <= lastDayOfCurrentMonth; day++) {
         final scores = moodData[day];
         if (scores != null && scores.isNotEmpty) {
           final avgScore = scores.reduce((a, b) => a + b) / scores.length;
-
           spots.add(FlSpot(day.toDouble(), avgScore));
+
+          dailyAverageSum += avgScore;
+          daysWithDataCount++;
         }
       }
 
       final overallAverageScore =
-          totalScoresCount > 0 ? totalScoresSum / totalScoresCount : 0.0;
+          daysWithDataCount > 0 ? dailyAverageSum / daysWithDataCount : 0.0;
 
       return MonthlyMoodChartData(
-          spots: spots, overallAverageScore: overallAverageScore);
+        spots: spots,
+        overallAverageScore: overallAverageScore,
+      );
     }).handleError((e) {
       print("Error streaming monthly mood data: $e");
-
       throw e;
     });
   }
@@ -98,6 +101,7 @@ class MoodMonthlyChart extends StatelessWidget {
         final chartData = snapshot.data;
         final spots = chartData?.spots ?? [];
         final overallAverageScore = chartData?.overallAverageScore ?? 0.0;
+        print("Overall average: $overallAverageScore");
 
         var banglaMonth = DateFormat.MMMM('bn').format(DateTime.now());
 
@@ -107,10 +111,8 @@ class MoodMonthlyChart extends StatelessWidget {
 
         return Column(
           children: [
-            //
             Expanded(
               child: LineChart(
-                //
                 LineChartData(
                   titlesData: FlTitlesData(
                     bottomTitles: AxisTitles(
@@ -118,7 +120,7 @@ class MoodMonthlyChart extends StatelessWidget {
                         showTitles: true,
                         reservedSize: 22,
                         getTitlesWidget: (value, meta) => Text(
-                          value.toInt().toString(),
+                          value.floor().toString(),
                           style: const TextStyle(fontSize: 10),
                         ),
                       ),
@@ -133,17 +135,16 @@ class MoodMonthlyChart extends StatelessWidget {
                   ),
                   lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
-                      tooltipMargin: 8, // margin between tooltip and chart edge
-                      fitInsideHorizontally:
-                          true, // reposition horizontally if near edge
-                      fitInsideVertically:
-                          true, // reposition vertically if near edge
+                      tooltipMargin: 8,
+                      fitInsideHorizontally: true,
+                      fitInsideVertically: true,
                       getTooltipColor: defaultLineTooltipColor,
                       getTooltipItems: (touchedSpots) {
                         return touchedSpots.map((spot) {
-                          final emoji = getEmojiForScore(spot.y);
+                          // Use the exact spot value to get Mood info, not an average
+                          final mood = getMoodFromScore(spot.y);
                           return LineTooltipItem(
-                            'Day ${spot.x.toInt()}\n$emoji',
+                            'দিন ${spot.x.toInt()}\n${mood.emoji} ${mood.title}',
                             const TextStyle(color: Colors.white, fontSize: 14),
                           );
                         }).toList();
@@ -176,12 +177,14 @@ class MoodMonthlyChart extends StatelessWidget {
                 ),
               ),
             ),
-
-            //
-            Text(
-              overallStatusText,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                overallStatusText,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         );
@@ -191,9 +194,15 @@ class MoodMonthlyChart extends StatelessWidget {
 }
 
 String getEmojiForScore(double score) {
-  if (score >= 4.5) return ' চমৎকার 😄';
-  if (score >= 3.5) return ' ভালো 🙂';
-  if (score >= 2.5) return ' নিরপেক্ষ 😐';
-  if (score >= 1.5) return ' কম 🙁';
+  if (score >= 4.5) return 'চমৎকার 😄';
+  if (score >= 3.5) return 'ভালো 🙂';
+  if (score >= 2.5) return 'নিরপেক্ষ 😐';
+  if (score >= 1.5) return 'কম 🙁';
   return 'খারাপ 😢';
+}
+
+Mood getMoodFromScore(double score) {
+  return Mood.values.reduce(
+    (a, b) => ((a.score - score).abs() < (b.score - score).abs()) ? a : b,
+  );
 }

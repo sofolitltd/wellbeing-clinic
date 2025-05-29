@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:wellbeingclinic/page/tools/schedule_week.dart';
 
 import '../../utils/set_tab_title.dart';
-import '../download/download_pdf.dart';
 import '../exercise/exercise.dart';
 import 'mood_section.dart';
 
@@ -22,11 +21,11 @@ class _HomePageState extends State<HomePage> {
 
     //
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        //
-        // Get.to(() => BanglaPdf());
-        generateAndOpenInvoice();
-      }),
+      // floatingActionButton: FloatingActionButton(onPressed: () {
+      //   //
+      //   // Get.to(() => BanglaPdf());
+      //   generateAndOpenInvoice();
+      // }),
       //
       appBar: AppBar(
         centerTitle: true,
