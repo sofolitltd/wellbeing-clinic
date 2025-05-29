@@ -66,10 +66,27 @@ class SingleResultPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ResultCard(
-        result: result,
-        score: score,
-        route: route,
+      body: Container(
+        margin: EdgeInsets.only(top: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(0, -2), // Top shadow
+              blurRadius: 6,
+              color: Colors.black12,
+            ),
+          ],
+        ),
+        child: ResultCard(
+          result: result,
+          score: score,
+          route: route,
+        ),
       ),
     );
   }

@@ -5,7 +5,7 @@ import '/page/blog/blog_screen.dart';
 import '/test/screens/tests.dart';
 import '../utils/set_tab_title.dart';
 import 'exercise/exercise.dart';
-import 'home_page.dart';
+import 'home/home_page.dart';
 import 'mood/mood_track.dart';
 
 class MainPage extends StatefulWidget {

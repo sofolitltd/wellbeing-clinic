@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wellbeingclinic/page/tools/schedule_week.dart';
 
-import '../utils/set_tab_title.dart';
-import 'exercise/exercise.dart';
-import 'mood/mood_track.dart';
+import '../../utils/set_tab_title.dart';
+import '../download/download_pdf.dart';
+import '../exercise/exercise.dart';
+import 'mood_section.dart';
 
 //
 class HomePage extends StatefulWidget {
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
 
     //
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        //
+        // Get.to(() => BanglaPdf());
+        generateAndOpenInvoice();
+      }),
+      //
       appBar: AppBar(
         centerTitle: true,
         elevation: 4,
@@ -60,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(15.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withValues(alpha: 0.5),
                           spreadRadius: 2,
                           blurRadius: 7,
                           offset:
@@ -252,75 +259,6 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 40),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-//
-class MoodTrackingSection extends StatelessWidget {
-  const MoodTrackingSection({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 700,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 16.0, top: 20.0, bottom: 10.0),
-              child: Text(
-                "আজকে আপনার অনুভূতি কেমন?",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo.shade800,
-                ),
-              ),
-            ),
-            //
-            SizedBox(
-              height: 100, // Fixed height for the horizontal list of mood cards
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(width: 16),
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: Mood.values.length,
-                itemBuilder: (context, index) {
-                  final mood = Mood.values[index];
-                  // final isSelected = mood == selectedMood;
-                  return GestureDetector(
-                    onTap: () {
-                      //
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddMoodFlowScreen(
-                              selectedMood: mood,
-                            ),
-                          ));
-                    },
-                    child: Column(
-                      children: [
-                        Text(mood.emoji, style: const TextStyle(fontSize: 45)),
-                        Text(mood.name.capitalizeFirst,
-                            style: const TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
         ),
       ),
     );

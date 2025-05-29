@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '/utils/set_tab_title.dart';
 import '../../model/result_model.dart';
 import '../../model/test_model.dart';
+import '../../utils/generate_pdf.dart';
 import '../test_list.dart';
 
 class MultiResultPreviewScreen extends StatelessWidget {
@@ -65,126 +66,145 @@ class MultiResultPreviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Preview: $title'),
-        actions: [],
+        actions: [
+          //pdf download btn
+          IconButton(
+            onPressed: () {
+              // result models result in one line
+
+              generateAndPrintResult(
+                title: title,
+                score: scores.first,
+                items: items,
+                resultMap: scoreMap,
+                result: resultModels.first,
+              );
+            },
+            icon: Icon(Icons.picture_as_pdf_outlined),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 794),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                if (items.isNotEmpty && items.first.scale.isNotEmpty) ...[
-                  const Text('স্কেল:', style: TextStyle(fontSize: 14)),
-                  Wrap(
-                    children: List.generate(
-                      items.first.scale.length,
-                      (index) {
-                        final scale = items.first.scale[index];
-                        final isLast = index == items.first.scale.length - 1;
-                        return Text(
-                          '${scale.id} = ${scale.title}${isLast ? '' : ', '}',
-                          style: const TextStyle(fontSize: 13),
-                        );
-                      },
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 794),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                ],
-                if (items.isNotEmpty)
-                  Table(
-                    border: TableBorder.all(color: Colors.grey.shade500),
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    columnWidths: {
-                      0: const FlexColumnWidth(4),
-                      for (int i = 1; i <= items.first.scale.length; i++)
-                        i: const FlexColumnWidth(1),
-                    },
-                    children: [
-                      TableRow(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              'প্রশ্ন',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          ...items.first.scale.map(
-                            (scale) => Padding(
-                              padding: const EdgeInsets.all(4),
+                  const SizedBox(height: 10),
+                  if (items.isNotEmpty && items.first.scale.isNotEmpty) ...[
+                    const Text('স্কেল:', style: TextStyle(fontSize: 14)),
+                    Wrap(
+                      children: List.generate(
+                        items.first.scale.length,
+                        (index) {
+                          final scale = items.first.scale[index];
+                          final isLast = index == items.first.scale.length - 1;
+                          return Text(
+                            '${scale.id} = ${scale.title}${isLast ? '' : ', '}',
+                            style: const TextStyle(fontSize: 13),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                  if (items.isNotEmpty)
+                    Table(
+                      border: TableBorder.all(color: Colors.grey.shade500),
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      columnWidths: {
+                        0: const FlexColumnWidth(4),
+                        for (int i = 1; i <= items.first.scale.length; i++)
+                          i: const FlexColumnWidth(1),
+                      },
+                      children: [
+                        TableRow(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8),
                               child: Text(
-                                scale.id.toString(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                'প্রশ্ন',
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      for (int i = 0; i < items.length; i++)
-                        TableRow(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                '${items[i].id}. ${items[i].title}',
-                                style: const TextStyle(fontSize: 12),
+                            ...items.first.scale.map(
+                              (scale) => Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Text(
+                                  scale.id.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
-                            ...items[i].scale.map((scaleItem) {
-                              final selectedId = scoreMap[items[i].id];
-                              final isSelected = selectedId == scaleItem.id;
-                              return Padding(
-                                padding: const EdgeInsets.all(6),
-                                child: Center(
-                                  child: isSelected
-                                      ? const Icon(Icons.check, size: 16)
-                                      : const SizedBox.shrink(),
-                                ),
-                              );
-                            }),
                           ],
                         ),
-                    ],
-                  ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Results:',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...List.generate(resultModels.length, (index) {
-                  final result = resultModels[index];
-                  final score = scores.length > index ? scores[index] : 0;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      '${result.title}($score) - ${result.status}',
-                      style: const TextStyle(fontSize: 14),
+                        for (int i = 0; i < items.length; i++)
+                          TableRow(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  '${items[i].id}. ${items[i].title}',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                              ...items[i].scale.map((scaleItem) {
+                                final selectedId = scoreMap[items[i].id];
+                                final isSelected = selectedId == scaleItem.id;
+                                return Padding(
+                                  padding: const EdgeInsets.all(6),
+                                  child: Center(
+                                    child: isSelected
+                                        ? const Icon(Icons.check, size: 16)
+                                        : const SizedBox.shrink(),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                      ],
                     ),
-                  );
-                }),
-              ],
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Results:',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ...List.generate(resultModels.length, (index) {
+                    final result = resultModels[index];
+                    final score = scores.length > index ? scores[index] : 0;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        '${result.title}($score) - ${result.status}',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    );
+                  }),
+                ],
+              ),
             ),
           ),
         ),

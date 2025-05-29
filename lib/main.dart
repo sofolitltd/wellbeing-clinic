@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:wellbeingclinic/page/auth/wrapper.dart';
 
 import '/page/auth/login.dart';
 import '/page/blog/blog_details.dart';
-import '/test/screens/multi_result_page.dart';
 import '/test/screens/preview_multi.dart';
-import '/test/screens/single_result_page.dart';
+import '/test/screens/result_page_multi.dart';
+import '/test/screens/result_page_single.dart';
 import 'firebase_options.dart';
 import 'page/ai_agent/ai_chat.dart';
 import 'page/auth/forgot_password.dart';
@@ -35,6 +36,8 @@ Future<void> main() async {
   );
 
   await dotenv.load(fileName: ".env");
+
+  await initializeDateFormatting('bn', null);
 
   runApp(MyApp());
 }

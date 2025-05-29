@@ -5,6 +5,7 @@ import '/utils/set_tab_title.dart';
 import '../../model/item_model.dart';
 import '../../model/result_model.dart';
 import '../../model/test_model.dart';
+import '../../utils/generate_pdf.dart';
 import '../test_list.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -77,7 +78,20 @@ class PreviewScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Preview: $title'),
         actions: [
-          //
+          //pdf download btn
+          IconButton(
+            onPressed: () {
+              //
+              generateAndPrintResult(
+                title: title,
+                score: score,
+                items: items,
+                resultMap: scoreMap,
+                result: result,
+              );
+            },
+            icon: Icon(Icons.picture_as_pdf_outlined),
+          ),
         ],
       ),
       body: Center(
@@ -172,8 +186,8 @@ class PreviewScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(6),
                                     child: Center(
                                       child: isSelected
-                                          ? const Icon(Icons.check,
-                                              color: Colors.black, size: 16)
+                                          ? Text('*',
+                                              style: TextStyle(fontSize: 18))
                                           : const SizedBox.shrink(),
                                     ),
                                   );
