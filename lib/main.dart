@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -15,6 +14,7 @@ import '/test/screens/result_page_multi.dart';
 import '/test/screens/result_page_single.dart';
 import 'firebase_options.dart';
 import 'page/ai_agent/ai_chat.dart';
+import 'page/audio_relaxation/audio_relaxation_screen.dart';
 import 'page/auth/forgot_password.dart';
 import 'page/auth/registration.dart';
 import 'page/blog/blog_screen.dart';
@@ -34,8 +34,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  await dotenv.load(fileName: ".env");
 
   await initializeDateFormatting('bn', null);
 
@@ -141,6 +139,7 @@ class MyApp extends StatelessWidget {
 
         //
         GetPage(name: '/chat', page: () => const ChatScreen()),
+        GetPage(name: '/relaxation', page: () => const AudioRelaxationScreen()),
       ],
       unknownRoute: GetPage(
         name: '/not-found',

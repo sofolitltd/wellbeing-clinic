@@ -55,7 +55,7 @@ class _AddMoodFlowScreenState extends State<AddMoodFlowScreen> {
       date: _selectedDate,
       title: _selectedMood.title,
       emoji: _selectedMood.emoji,
-      score: _selectedMood.score,
+      score: _selectedMood.score.toDouble(),
       activities: _selectedActivities,
       people: _selectedPeople,
       places: _selectedPlaces,

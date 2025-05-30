@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wellbeingclinic/page/tools/schedule_week.dart';
 
 import '../../utils/set_tab_title.dart';
@@ -61,8 +62,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15.0), // Rounded corners
                   child: Ink(
                     decoration: BoxDecoration(
-                      color:
-                          Colors.black87, // Background color of the container
+                      color: Colors.black, // Background color of the container
                       borderRadius: BorderRadius.circular(15.0),
                       boxShadow: [
                         BoxShadow(
@@ -82,11 +82,11 @@ class _HomePageState extends State<HomePage> {
                         alignment: Alignment.topRight,
                         children: [
                           //
-                          const Column(
+                          Column(
                             spacing: 8,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Icon(
                                     Icons.support, // Chat icon
@@ -107,11 +107,15 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               //
+                              const SizedBox(width: 2),
+
                               Text(
-                                "আমাদের এআই সহকারী আপনাকে মানসিক স্বাস্থ্য সম্পর্কিত বিভিন্ন প্রশ্নের সহজ ও বোধগম্য উত্তর প্রদানের মাধ্যমে দ্রুত প্রাথমিক সহায়তা দিতে প্রস্তুত",
+                                "আমাদের এআই সহকারী থেকে মানসিক স্বাস্থ্য নিয়ে আপনার যেকোনো প্রশ্নের উত্তর অথবা প্রাথমিক সহায়তা পেতে পারেন।",
                                 style: TextStyle(
                                   color: Colors.white70,
                                   fontSize: 14,
+                                  fontFamily:
+                                      GoogleFonts.notoSerifBengali().fontFamily,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
@@ -130,8 +134,91 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
+              const SizedBox(height: 24),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed('/relaxation');
+                  },
+                  borderRadius: BorderRadius.circular(15.0), // Rounded corners
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: Colors
+                              .black12), // Background color of the container
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12.withValues(alpha: 0.05),
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      width: double.infinity, // Take full width
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      child: Row(
+                        spacing: 8,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //
+                          Expanded(
+                            child: Column(
+                              spacing: 8,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'অডিও রিল্যাক্সেশন', // Title
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    height: 1,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  "এখনই সময় নিজেকে একটু সময় দেওয়ার।\n শব্দের মাধ্যমে অনুভব করুন প্রশান্তি।",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 14,
+                                    fontFamily: GoogleFonts.notoSerifBengali()
+                                        .fontFamily,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          ),
+                          //
+
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Icon(
+                              Icons.headset_rounded, // Chat icon
+                              //gradiant color
+
+                              color: Colors.black12.withValues(alpha: .3),
+                              size: 60,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 16),
 
+              //
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -151,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    height: 300,
+                    height: 200,
                     // color: Colors.red,
                     padding: EdgeInsets.symmetric(vertical: 0),
                     // This ensures the ListView takes all remaining vertical space
@@ -165,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         final category = exerciseCategories[index];
                         return SizedBox(
-                          width: 270,
+                          width: 280,
                           child: buildDetailedHorizontalCard(
                             // Using the detailed card builder
                             context: context,
@@ -231,7 +318,7 @@ class _HomePageState extends State<HomePage> {
 
                           //
                           Text(
-                              'পরিকল্পিত সময়সূচি যেখানে প্রতিদিনের গুরুত্বপূর্ণ কাজগুলো নির্দিষ্ট সময়ে করা হয়। এটি সময় ব্যবস্থাপনা উন্নত করে, দায়িত্বশীলতা বাড়ায় এবং মানসিক স্থিরতা এনে দেয়। নিয়মিত স্কেজুল অনুসরণ করলে প্রোডাক্টিভিটি ও আত্মনিয়ন্ত্রণ বৃদ্ধি পায়।'),
+                              'প্রতিদিনের গুরুত্বপূর্ণ কাজগুলো নির্দিষ্ট সময়ে করা পরিকল্পিত সময়সূচি । এটি সময় ব্যবস্থাপনা উন্নত করে, দায়িত্বশীলতা বাড়ায় এবং মানসিক স্থিরতা এনে দেয়। নিয়মিত স্কেজুল অনুসরণ করলে প্রোডাক্টিভিটি ও আত্মনিয়ন্ত্রণ বৃদ্ধি পায়।'),
                         ],
                       ),
 

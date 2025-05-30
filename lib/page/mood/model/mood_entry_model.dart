@@ -44,7 +44,7 @@ class MoodEntry {
       date: timestamp.toDate(),
       title: data['mood'] as String,
       emoji: data['emoji'] as String,
-      score: data['score'] as double,
+      score: (data['score'] as num).toDouble(),
       activities: List<String>.from(data['activities'] ?? []),
       people: List<String>.from(data['people'] ?? []),
       places: List<String>.from(data['places'] ?? []),

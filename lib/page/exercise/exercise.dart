@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:wellbeingclinic/page/exercise/pmr.dart';
 
-// Assuming these imports are correct and point to your updated pages
 import '../../utils/set_tab_title.dart';
-import 'breath.dart'; // This should contain your BreathingExercisePage (the info page)
-import 'cbt.dart'; // This should contain your CBTPage
-import 'ground.dart'; // This should contain your GroundingPage
-import 'mindful.dart'; // This should contain your MindfulnessPage
+import 'breath.dart';
+import 'cbt.dart';
+import 'ground.dart';
+import 'mindful.dart';
 
-// --- Data for the exercise categories with gradient colors ---
 final List<Map<String, dynamic>> exerciseCategories = [
   {
     'title': 'Breathing Techniques',
     'description':
         'শান্ত ও ছন্দবদ্ধ শ্বাস-প্রশ্বাসের অনুশীলনের মাধ্যমে আপনার মন ও শরীরকে স্থির করুন।',
-    // English: Calm your mind and body with rhythmic breathing exercises.
     'icon': Icons.self_improvement,
     'gradientColors': [Colors.blueAccent.shade200, Colors.blue.shade400],
     'onPressed': (BuildContext context) {
@@ -28,7 +25,6 @@ final List<Map<String, dynamic>> exerciseCategories = [
     'title': 'Mindfulness & Meditation',
     'description':
         'মনের প্রশান্তি ও একাগ্রতা বাড়াতে বর্তমান মুহূর্তে মনোযোগ দিন। এর মাধ্যমে আপনার ভেতরের সচেতনতা বৃদ্ধি পাবে ।',
-    // English: Enhance awareness and presence by focusing on the moment.
     'icon': Icons.spa,
     'gradientColors': [Colors.green.shade200, Colors.lightGreen.shade400],
     'onPressed': (BuildContext context) {
@@ -42,7 +38,6 @@ final List<Map<String, dynamic>> exerciseCategories = [
     'title': 'Grounding Exercises',
     'description':
         'উদ্বেগ কমাতে ও আবেগ নিয়ন্ত্রণ করতে আপনার ইন্দ্রিয়গুলোর সাথে পুনরায় সংযোগ স্থাপন করুন।',
-    // English: Reconnect with your senses to reduce anxiety and overwhelm.
     'icon': Icons.location_on,
     'gradientColors': [Colors.purple.shade200, Colors.deepPurple.shade400],
     'onPressed': (BuildContext context) {
@@ -56,8 +51,7 @@ final List<Map<String, dynamic>> exerciseCategories = [
     'title': 'CBT Thought Restructuring',
     'description':
         'নেতিবাচক চিন্তাভাবনাকে চ্যালেঞ্জ করে সেগুলোকে আরও ভারসাম্যপূর্ণ দৃষ্টিভঙ্গিতে রূপান্তর করুন।',
-    // English: Challenge and re-frame negative thoughts into balanced perspectives.
-    'icon': Icons.lightbulb_outline,
+    'icon': Icons.lightbulb_rounded,
     'gradientColors': [Colors.orange.shade200, Colors.deepOrange.shade400],
     'onPressed': (BuildContext context) {
       Navigator.push(
@@ -70,7 +64,6 @@ final List<Map<String, dynamic>> exerciseCategories = [
     'title': 'Progressive Muscle Relaxation',
     'description':
         'শারীরিক উত্তেজনা দূর করতে পেশীগুলোকে পদ্ধতিগতভাবে টান টান করে তারপর শিথিল করুন।',
-    // English: Systematically tense and relax muscles to release physical tension.
     'icon': Icons.accessibility_new,
     'gradientColors': [Colors.red.shade200, Colors.red.shade400],
     'onPressed': (BuildContext context) {
@@ -94,12 +87,12 @@ class MentalHealthExercisesPage extends StatelessWidget {
         title: Text(
           'Mental Health Exercises',
           style: TextStyle(
-            color: Colors.indigo.shade700, // Deep indigo AppBar
+            color: Colors.indigo.shade700,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
         ),
-        elevation: 0, // No shadow for a flat, modern look
+        elevation: 0,
         centerTitle: true,
       ),
       body: Center(
@@ -110,12 +103,11 @@ class MentalHealthExercisesPage extends StatelessWidget {
           child: ListView(
             children: [
               Divider(height: 1, thickness: .5),
-              //
               Padding(
                 padding:
                     const EdgeInsets.only(left: 16.0, top: 20.0, bottom: 24),
                 child: Text(
-                  'Explore Our Exercises', // Title for the horizontal section
+                  'Explore Our Exercises',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -125,31 +117,49 @@ class MentalHealthExercisesPage extends StatelessWidget {
               ),
 
               //
-              GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio:
-                      MediaQuery.sizeOf(context).width < 700 ? .85 : 1.3,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: exerciseCategories.length,
-                itemBuilder: (context, index) {
-                  final category = exerciseCategories[index];
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWide = constraints.maxWidth > 700;
 
-                  //
-                  return buildDetailedHorizontalCard(
-                    // Using the detailed card builder
-                    context: context,
-                    title: category['title']!,
-                    description: category['description']!,
-                    icon: category['icon'] as IconData,
-                    gradientColors: category['gradientColors'] as List<Color>,
-                    onPressed: category['onPressed'] as Function(BuildContext),
-                  );
+                  final items = <Widget>[];
+                  for (int i = 0;
+                      i < exerciseCategories.length;
+                      i += isWide ? 2 : 1) {
+                    final rowChildren = <Widget>[];
+
+                    for (int j = i;
+                        j < i + (isWide ? 2 : 1) &&
+                            j < exerciseCategories.length;
+                        j++) {
+                      final category = exerciseCategories[j];
+
+                      rowChildren.add(
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 16),
+                            child: buildDetailedHorizontalCard(
+                              context: context,
+                              title: category['title']!,
+                              description: category['description']!,
+                              icon: category['icon'] as IconData,
+                              gradientColors:
+                                  category['gradientColors'] as List<Color>,
+                              onPressed: category['onPressed'] as Function(
+                                  BuildContext),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    items.add(Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: rowChildren,
+                    ));
+                  }
+
+                  return Column(children: items);
                 },
               ),
 
@@ -163,7 +173,6 @@ class MentalHealthExercisesPage extends StatelessWidget {
   }
 }
 
-//
 Widget buildDetailedHorizontalCard({
   required BuildContext context,
   required String title,
@@ -178,8 +187,8 @@ Widget buildDetailedHorizontalCard({
       boxShadow: [
         BoxShadow(
           color: Colors.black12.withValues(alpha: 0.05),
-          spreadRadius: 5,
-          blurRadius: 5,
+          spreadRadius: 8,
+          blurRadius: 8,
           offset: const Offset(2, 2),
         ),
       ],
@@ -197,51 +206,48 @@ Widget buildDetailedHorizontalCard({
         splashColor: Colors.white.withOpacity(0.3),
         highlightColor: Colors.white.withOpacity(0.1),
         child: Padding(
-          padding:
-              const EdgeInsets.all(20), // Increased padding for full height
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment
-                .spaceBetween, // Distributes content vertically
+            mainAxisSize: MainAxisSize.min, // Allow dynamic height
             children: [
-              Icon(
-                icon,
-                size: 60, // Slightly larger icon for more prominence
-                color: Colors.white.withOpacity(0.9),
-              ),
-              const SizedBox(height: 16), // Increased spacing
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  // color: Colors.white10.withValues(alpha: .05),
-                ),
-                height: 60,
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20, // Slightly larger title font
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white.withOpacity(0.2),
+                    radius: 26,
+                    child: Icon(
+                      icon,
+                      size: 32,
+                      color: Colors.white,
+                    ),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(height: 8), // Spacing below title
-              Expanded(
-                // Ensures description fits
-                child: Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 14, // Slightly larger description font
-                    height: 1.4,
-                    color: Colors.white.withOpacity(0.9),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        height: 1.3,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  maxLines:
-                      4, // Allow more lines for description in a taller card
-                  overflow: TextOverflow.ellipsis,
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1.4,
+                  color: Colors.white.withOpacity(0.9),
                 ),
+                maxLines: 6, // Optional: allow more lines
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

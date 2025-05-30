@@ -206,17 +206,24 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: _messages.length + (_isLoading ? 1 : 0),
-                  itemBuilder: (_, index) {
-                    if (index == _messages.length && _isLoading) {
-                      return _buildTypingIndicator();
-                    } else {
-                      return _buildMessage(_messages[index]);
-                    }
-                  },
-                ),
+                child: _messages.isEmpty && !_isLoading
+                    ? Center(
+                        child: Text(
+                          'হ্যালো, কি ভাবে আপনাকে সাহায্য করতে পারি?', // Your message here
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        controller: _scrollController,
+                        itemCount: _messages.length + (_isLoading ? 1 : 0),
+                        itemBuilder: (_, index) {
+                          if (index == _messages.length && _isLoading) {
+                            return _buildTypingIndicator();
+                          } else {
+                            return _buildMessage(_messages[index]);
+                          }
+                        },
+                      ),
               ),
               // const Divider(height: 1),
               Container(

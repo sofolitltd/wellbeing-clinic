@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     setTabTitle('Home - Wellbeing Clinic', context);
 
-    const int breakpointWidth = 600;
+    const int breakpointWidth = 700;
 
     return LayoutBuilder(
       builder: (context, constraints) {
